@@ -1,0 +1,665 @@
+{
+  "$comment": "データセット定義。新しいデータセットはこのファイルに追加するだけで地図・凡例・説明に反映される。単位・期間・解像度は JAXA Earth API の collection.json / item STAC (2026-11 確認) に基づく。",
+  "baseUrl": "https://s3.ap-northeast-1.wasabisys.com/je-pds/cog/v1/",
+  "datasets": [
+    {
+      "key": "precip",
+      "collectionId": "JAXA.EORC_GSMaP_standard.Gauge.00Z-23Z.v6_monthly",
+      "band": "PRECIP",
+      "name": "降水量（月平均）",
+      "shortName": "降水量",
+      "icon": "🌧️",
+      "category": "weather",
+      "target": "地上に降る雨や雪の強さ",
+      "temporal": "monthly",
+      "updateFrequency": "毎月（数日遅れで更新）",
+      "periodStart": "2000-03",
+      "periodEnd": null,
+      "spatialResolution": "約11km（0.1°）",
+      "unit": "mm/hr",
+      "unitLabel": "mm/時",
+      "valueKind": "estimated",
+      "maxZoom": 6,
+      "colorMap": {
+        "min": 0,
+        "max": 1,
+        "colors": [
+          "0b1020",
+          "1e3a8a",
+          "2563eb",
+          "06b6d4",
+          "a3e635",
+          "facc15",
+          "f97316",
+          "dc2626"
+        ],
+        "deleteMin": false
+      },
+      "transparentBelow": 0.02,
+      "description": {
+        "simple": "1か月のあいだに、どれくらい雨がふったかを色で表しています。青から赤になるほど、たくさん雨がふった場所です。",
+        "detail": "GSMaP（衛星全球降水マップ）は、全球降水観測計画（GPM）の主衛星や、世界中の気象衛星・マイクロ波放射計を組み合わせて、1時間ごとの降水量を推定し、地上雨量計で補正したデータです。ここではその月の平均的な降水強度（1時間あたり）を表示しています。赤道付近の熱帯収束帯や、夏のモンスーンによる大雨帯がよく見えます。",
+        "data": "複数衛星の観測から推定された降水強度の月平均値です（地上雨量計で補正済みの Gauge 版）。月の総降水量は おおよそ 値×24×日数 で求められます。"
+      },
+      "caution": "衛星からの推定値のため、山岳地帯や雪・弱い雨では誤差が大きくなることがあります。",
+      "source": {
+        "provider": "JAXA EORC / GSMaP Project",
+        "satellite": "GPM 主衛星ほか複数の衛星",
+        "sensor": "DPR・マイクロ波放射計・静止気象衛星 赤外",
+        "citation": "Japan Aerospace Exploration Agency. 1998. GSMaP(Monthly).",
+        "doi": "10.57746/EO.01gs73bktym5xwr10j34rwqgj8"
+      }
+    },
+    {
+      "key": "sst",
+      "collectionId": "JAXA.G-Portal_GCOM-C.SGLI_standard.L3-SST.daytime.v3_global_monthly",
+      "band": "SST",
+      "name": "海面水温（月平均・昼）",
+      "shortName": "海面水温",
+      "icon": "🌊",
+      "category": "ocean",
+      "target": "海の表面の温度",
+      "temporal": "monthly",
+      "updateFrequency": "毎月",
+      "periodStart": "2024-01",
+      "periodEnd": null,
+      "spatialResolution": "約5km（JAXA Earth API 配信解像度）",
+      "unit": "degreeC",
+      "unitLabel": "℃",
+      "valueKind": "observed",
+      "maxZoom": 8,
+      "colorMap": {
+        "min": -2,
+        "max": 32,
+        "colors": "jet"
+      },
+      "description": {
+        "simple": "海の表面の温度です。赤いところはあたたかい海、青いところはつめたい海です。",
+        "detail": "気候変動観測衛星「しきさい」（GCOM-C）に搭載された多波長光学放射計 SGLI が、海面から出る赤外線をはかって海面水温を求めています。黒潮のようなあたたかい海流や、赤道付近の湧昇でつめたい水がわき上がる様子が見えます。",
+        "data": "昼間の観測から作成した月平均値です。雲があると赤外線で海面が見えないため、雲の多い海域では欠損が出ます。"
+      },
+      "caution": "雲におおわれた場所は値がありません（地図上では透明）。データは 2024年1月 以降です。",
+      "source": {
+        "provider": "JAXA / GCOM-C science project / EORC",
+        "satellite": "GCOM-C「しきさい」",
+        "sensor": "SGLI",
+        "citation": "Japan Aerospace Exploration Agency. 2018. GCOM-C/SGLI L2 Sea surface temperature.",
+        "doi": "10.57746/EO.01gs73b3w2vb5ntwzsx5g2ft25"
+      }
+    },
+    {
+      "key": "chla",
+      "collectionId": "JAXA.G-Portal_GCOM-C.SGLI_standard.L3-CHLA.daytime.v3_global_monthly",
+      "band": "CHLA",
+      "name": "クロロフィルa濃度（月平均）",
+      "shortName": "クロロフィルa",
+      "icon": "🦠",
+      "category": "ocean",
+      "target": "海の植物プランクトンの量",
+      "temporal": "monthly",
+      "updateFrequency": "毎月",
+      "periodStart": "2024-01",
+      "periodEnd": null,
+      "spatialResolution": "約5km（JAXA Earth API 配信解像度）",
+      "unit": "mg/m^3",
+      "unitLabel": "mg/m³",
+      "valueKind": "estimated",
+      "maxZoom": 8,
+      "colorMap": {
+        "min": 0.01,
+        "max": 10,
+        "colors": [
+          "1e1b4b",
+          "1d4ed8",
+          "0891b2",
+          "10b981",
+          "84cc16",
+          "facc15",
+          "f97316"
+        ],
+        "log": true,
+        "logOrigin": 0
+      },
+      "description": {
+        "simple": "海にいる小さな植物（植物プランクトン）がどれくらい多いかを表しています。緑や黄色のところは、植物プランクトンが多い海です。",
+        "detail": "植物プランクトンは光合成をするための色素「クロロフィルa」を持っています。SGLI は海の色（どの色の光がどれだけ反射されるか）をはかり、そこからクロロフィルa濃度を推定します。栄養の多い沿岸や、深い海から栄養がわき上がる海域で多くなります。",
+        "data": "海色から推定した値です。濃度の幅がとても大きいため、凡例は対数目盛（0.01〜10）で表示しています。"
+      },
+      "caution": "雲・海氷・濁った沿岸では推定誤差が大きくなります。2024年1月以降のデータです。",
+      "source": {
+        "provider": "JAXA / GCOM-C science project / EORC",
+        "satellite": "GCOM-C「しきさい」",
+        "sensor": "SGLI",
+        "citation": "Japan Aerospace Exploration Agency. 2018. GCOM-C/SGLI L2 In-water properties (Chl-a TSM CDOM).",
+        "doi": "10.57746/EO.01gs73b3d6t6hhnjef1ades7z6"
+      }
+    },
+    {
+      "key": "ndvi",
+      "collectionId": "JAXA.JASMES_Terra.MODIS-Aqua.MODIS_ndvi.v811_global_monthly",
+      "band": "ndvi",
+      "name": "植生指数 NDVI（月平均・長期）",
+      "shortName": "植生指数",
+      "icon": "🌳",
+      "category": "land",
+      "target": "植物の元気さ・しげり具合",
+      "temporal": "monthly",
+      "updateFrequency": "毎月",
+      "periodStart": "2002-01",
+      "periodEnd": null,
+      "spatialResolution": "約5.6km（0.05°）",
+      "unit": "",
+      "unitLabel": "（単位なし）",
+      "valueKind": "observed",
+      "maxZoom": 7,
+      "colorMap": {
+        "min": -0.2,
+        "max": 1,
+        "colors": [
+          "2b4c8c",
+          "c8b68a",
+          "efe3a0",
+          "a3d977",
+          "3f9a3c",
+          "0b4a1a"
+        ]
+      },
+      "description": {
+        "simple": "植物がどれくらい元気にしげっているかを表しています。こい緑ほど植物が多く、茶色は砂漠や岩、青は水です。",
+        "detail": "植物の葉は赤い光をよく吸収し、近赤外線（目に見えない光）をよく反射します。この性質を使って (近赤外 − 赤) ÷ (近赤外 + 赤) で計算したのが NDVI（正規化植生指数）です。-1〜1 の値をとり、0.6 以上は森林のように植物がこい場所、0 付近は砂漠、マイナスは水面です。",
+        "data": "Terra/Aqua 衛星の MODIS センサーによる月合成値で、2002年からの長期変化を調べられます。"
+      },
+      "caution": "雲や雪の影響を受けた月は値が低く出たり欠損したりします。季節による変化が大きいため、比べるときは同じ月どうしで比べましょう。",
+      "source": {
+        "provider": "JAXA EORC / JASMES",
+        "satellite": "Terra・Aqua（NASA）",
+        "sensor": "MODIS",
+        "citation": "JAXA Satellite Monitoring for Environmental Studies (JASMES), MODIS NDVI v811.",
+        "doi": null
+      }
+    },
+    {
+      "key": "ndvi-gcomc",
+      "collectionId": "JAXA.G-Portal_GCOM-C.SGLI_standard.L3-NDVI.daytime.v3_global_monthly",
+      "band": "NDVI",
+      "name": "植生指数 NDVI（しきさい）",
+      "shortName": "植生指数(GCOM-C)",
+      "icon": "🌿",
+      "category": "land",
+      "target": "植物の元気さ・しげり具合",
+      "temporal": "monthly",
+      "updateFrequency": "毎月",
+      "periodStart": "2018-01",
+      "periodEnd": null,
+      "spatialResolution": "約2.8km（1/24°）",
+      "unit": "",
+      "unitLabel": "（単位なし）",
+      "valueKind": "observed",
+      "maxZoom": 8,
+      "colorMap": {
+        "min": -0.2,
+        "max": 1,
+        "colors": [
+          "2b4c8c",
+          "c8b68a",
+          "efe3a0",
+          "a3d977",
+          "3f9a3c",
+          "0b4a1a"
+        ]
+      },
+      "description": {
+        "simple": "日本の衛星「しきさい」が見た、植物の元気さです。こい緑ほど植物が多い場所です。",
+        "detail": "GCOM-C「しきさい」の SGLI による NDVI です。MODIS 版より細かい約2.8kmの解像度で、2018年以降の様子を調べられます。",
+        "data": "昼間の観測から作成した月合成値です。"
+      },
+      "caution": "MODIS 版とはセンサーや処理方法がちがうため、2つのデータの値を直接くらべるときは注意が必要です。",
+      "source": {
+        "provider": "JAXA / GCOM-C science project / EORC",
+        "satellite": "GCOM-C「しきさい」",
+        "sensor": "SGLI",
+        "citation": "Japan Aerospace Exploration Agency. 2018. GCOM-C/SGLI L3 Map Normalized Difference Vegetation Index (NDVI) (1-Month,1/24 deg).",
+        "doi": "10.57746/EO.01gs73bfw51k88w7j9recfk6dv"
+      }
+    },
+    {
+      "key": "smc",
+      "collectionId": "JAXA.G-Portal_GCOM-W.AMSR2_standard.L3-SMC.daytime.v3_global_monthly",
+      "band": "SMC",
+      "name": "土壌水分量（月平均）",
+      "shortName": "土壌水分",
+      "icon": "💧",
+      "category": "soil",
+      "target": "地面の表面近くの土にふくまれる水の量",
+      "temporal": "monthly",
+      "updateFrequency": "毎月",
+      "periodStart": "2012-07",
+      "periodEnd": null,
+      "spatialResolution": "約11km（0.1°）",
+      "unit": "%",
+      "unitLabel": "%",
+      "valueKind": "estimated",
+      "maxZoom": 6,
+      "colorMap": {
+        "min": 0,
+        "max": 40,
+        "colors": [
+          "8c2d04",
+          "d97706",
+          "fde68a",
+          "f8fafc",
+          "93c5fd",
+          "2563eb",
+          "1e3a8a"
+        ]
+      },
+      "description": {
+        "simple": "土がどれくらいしめっているかを表しています。青いところはしっとり、茶色いところはカラカラにかわいています。",
+        "detail": "水循環変動観測衛星「しずく」（GCOM-W）の AMSR2 は、地面から出ている弱いマイクロ波をはかります。土に水が多いとマイクロ波の出方が変わるため、そこから地表近く（数cm）の土の水分量を推定できます。雲を通して観測できるのが特長です。",
+        "data": "体積含水率（土の体積のうち水がしめる割合, %）の推定値です。"
+      },
+      "caution": "森林が深い場所・雪や凍った地面・水面の近くでは推定できない、または誤差が大きくなります。",
+      "source": {
+        "provider": "JAXA GCOM Project / EORC",
+        "satellite": "GCOM-W「しずく」",
+        "sensor": "AMSR2",
+        "citation": "Japan Aerospace Exploration Agency. 2012. GCOM-W/AMSR2 L3 Soil Moisture Content (1-Month, 0.1 deg).",
+        "doi": "10.57746/EO.01gs73b17zekqwyj4hh9xpqgy7"
+      }
+    },
+    {
+      "key": "lst",
+      "collectionId": "JAXA.G-Portal_GCOM-C.SGLI_standard.L3-LST.daytime.v3_global_monthly",
+      "band": "LST",
+      "name": "地表面温度（月平均・昼）",
+      "shortName": "地表面温度",
+      "icon": "🌡️",
+      "category": "surface",
+      "target": "地面そのものの温度（気温ではない）",
+      "temporal": "monthly",
+      "updateFrequency": "毎月",
+      "periodStart": "2018-01",
+      "periodEnd": null,
+      "spatialResolution": "約2.8km（1/24°）",
+      "unit": "Kelvin",
+      "unitLabel": "℃",
+      "displayOffset": -273.15,
+      "valueKind": "observed",
+      "maxZoom": 8,
+      "colorMap": {
+        "min": 253.15,
+        "max": 333.15,
+        "colors": "jet"
+      },
+      "description": {
+        "simple": "地面の温度です。赤いところは地面がとても熱く、青いところは冷たい場所です。気温（空気の温度）とはちがいます。",
+        "detail": "SGLI が地面から出る熱赤外線をはかって、地表面の温度を求めています。砂漠や都市のアスファルトは昼間とても熱くなり、森林は葉からの蒸散で温度が上がりにくくなります。観測時刻は各地の午前10時30分ごろです。",
+        "data": "データはケルビン(K)で配信されています。ここでは見やすいように ℃（= K − 273.15）に変換して表示しています。"
+      },
+      "caution": "雲があると観測できません。気温とはちがう値です。",
+      "source": {
+        "provider": "JAXA / GCOM-C science project / EORC",
+        "satellite": "GCOM-C「しきさい」",
+        "sensor": "SGLI",
+        "citation": "Japan Aerospace Exploration Agency. 2018. GCOM-C/SGLI L3 Map Land surface temperature (LST) (1-Month,1/24 deg).",
+        "doi": "10.57746/EO.01gs73bfs5sbzhyxg4j9ytajsa"
+      }
+    },
+    {
+      "key": "seaice",
+      "collectionId": "JAXA.JASMES_GCOM-W.AMSR2_ic0.v201_north_daily",
+      "band": "IC0",
+      "name": "北極の海氷密接度（日別）",
+      "shortName": "海氷(北極)",
+      "icon": "🧊",
+      "category": "ocean",
+      "target": "海面のうち氷におおわれている割合",
+      "temporal": "daily",
+      "updateFrequency": "毎日",
+      "periodStart": "2012-07-02",
+      "periodEnd": null,
+      "spatialResolution": "約8km（北極域投影 EPSG:3995）",
+      "unit": "%",
+      "unitLabel": "%",
+      "valueKind": "estimated",
+      "maxZoom": 5,
+      "projection": "EPSG:3995",
+      "colorMap": {
+        "min": 0,
+        "max": 100,
+        "colors": "ic",
+        "deleteMin": true
+      },
+      "transparentBelow": 15,
+      "description": {
+        "simple": "北極の海が、どれくらい氷におおわれているかを表しています。白いところは氷がびっしり、青いところは氷が少ない海です。",
+        "detail": "AMSR2 のマイクロ波観測では、海氷と海水でマイクロ波の出方がちがうことを利用して、海面のうち氷がしめる割合（密接度）を求めます。雲や夜でも観測できるため、毎日の変化を追えます。北極の海氷は毎年9月ごろに最も小さくなり、3月ごろに最も大きくなります。",
+        "data": "北極域のポーラーステレオ投影（EPSG:3995）で作られた日別データです。15%未満は表示していません。"
+      },
+      "caution": "この地図（Webメルカトル図法）では北緯85度より北は表示できません。地図に表示するときは約16kmの格子に間引いています。日別データのため、時系列グラフには対応していません（地点の値は確認できます）。",
+      "source": {
+        "provider": "JAXA EORC / JASMES",
+        "satellite": "GCOM-W「しずく」",
+        "sensor": "AMSR2",
+        "citation": "JAXA Satellite Monitoring for Environmental Studies (JASMES), AMSR2 Sea Ice Concentration v201.",
+        "doi": null
+      }
+    },
+    {
+      "key": "landcover",
+      "collectionId": "Copernicus.C3S_PROBA-V_LCCS_global_yearly",
+      "band": "LCCS",
+      "name": "土地被覆分類（2019年）",
+      "shortName": "土地被覆",
+      "icon": "🗺️",
+      "category": "land",
+      "target": "森林・農地・都市・水などの土地の種類",
+      "temporal": "yearly",
+      "updateFrequency": "更新なし（2019年のみ）",
+      "periodStart": "2019",
+      "periodEnd": "2019",
+      "spatialResolution": "約300m（JAXA Earth API では約1.1kmまで縮小配信）",
+      "unit": "",
+      "unitLabel": "（分類）",
+      "valueKind": "classified",
+      "maxZoom": 9,
+      "colorMap": null,
+      "description": {
+        "simple": "地面が森・畑・まち・砂漠・水など、どんな土地なのかを色分けした地図です。",
+        "detail": "PROBA-V 衛星などの観測から、国連食糧農業機関（FAO）の土地被覆分類システム（LCCS）にしたがって、世界の土地を約20種類に分類しています。地表面温度などと重ねると、土地の種類による違いを調べられます。",
+        "data": "分類データ（名義尺度）なので、平均や相関の計算には使えません。地点ごとに分類名を確認しましょう。"
+      },
+      "caution": "2019年1年分のみです。分類にはまちがいが含まれることがあります。",
+      "source": {
+        "provider": "Copernicus Climate Change Service (C3S) / JAXA EORC",
+        "satellite": "PROBA-V ほか",
+        "sensor": "VGT-P ほか",
+        "citation": "Contains modified Copernicus Climate Change Service information 2019. ESA Land Cover CCI Product User Guide Version 2.",
+        "doi": null
+      },
+      "classes": [
+        {
+          "value": 10,
+          "label": "畑（天水）",
+          "color": "FFFF64",
+          "major": true
+        },
+        {
+          "value": 11,
+          "label": "畑（草本）",
+          "color": "FFFF64",
+          "major": false
+        },
+        {
+          "value": 12,
+          "label": "畑（樹木・低木）",
+          "color": "FFFF00",
+          "major": false
+        },
+        {
+          "value": 20,
+          "label": "畑（かんがい）",
+          "color": "AAF0F0",
+          "major": true
+        },
+        {
+          "value": 30,
+          "label": "農地と自然植生のモザイク（農地多め）",
+          "color": "DCF064",
+          "major": true
+        },
+        {
+          "value": 40,
+          "label": "農地と自然植生のモザイク（自然多め）",
+          "color": "C8C864",
+          "major": true
+        },
+        {
+          "value": 50,
+          "label": "常緑広葉樹林",
+          "color": "006400",
+          "major": true
+        },
+        {
+          "value": 60,
+          "label": "落葉広葉樹林",
+          "color": "00A000",
+          "major": true
+        },
+        {
+          "value": 61,
+          "label": "落葉広葉樹林（密）",
+          "color": "00A000",
+          "major": false
+        },
+        {
+          "value": 62,
+          "label": "落葉広葉樹林（疎）",
+          "color": "AAC800",
+          "major": false
+        },
+        {
+          "value": 70,
+          "label": "常緑針葉樹林",
+          "color": "003C00",
+          "major": true
+        },
+        {
+          "value": 71,
+          "label": "常緑針葉樹林（密）",
+          "color": "003C00",
+          "major": false
+        },
+        {
+          "value": 72,
+          "label": "常緑針葉樹林（疎）",
+          "color": "005000",
+          "major": false
+        },
+        {
+          "value": 80,
+          "label": "落葉針葉樹林",
+          "color": "285000",
+          "major": true
+        },
+        {
+          "value": 81,
+          "label": "落葉針葉樹林（密）",
+          "color": "285000",
+          "major": false
+        },
+        {
+          "value": 82,
+          "label": "落葉針葉樹林（疎）",
+          "color": "286400",
+          "major": false
+        },
+        {
+          "value": 90,
+          "label": "混交林",
+          "color": "788200",
+          "major": true
+        },
+        {
+          "value": 100,
+          "label": "樹木・低木と草地のモザイク",
+          "color": "8CA000",
+          "major": true
+        },
+        {
+          "value": 110,
+          "label": "草地と樹木のモザイク",
+          "color": "BE9600",
+          "major": true
+        },
+        {
+          "value": 120,
+          "label": "低木地",
+          "color": "966400",
+          "major": true
+        },
+        {
+          "value": 121,
+          "label": "常緑低木地",
+          "color": "966400",
+          "major": false
+        },
+        {
+          "value": 122,
+          "label": "落葉低木地",
+          "color": "966400",
+          "major": false
+        },
+        {
+          "value": 130,
+          "label": "草地",
+          "color": "FFB432",
+          "major": true
+        },
+        {
+          "value": 140,
+          "label": "地衣類・コケ",
+          "color": "FFDCD2",
+          "major": true
+        },
+        {
+          "value": 150,
+          "label": "まばらな植生",
+          "color": "FFEBAF",
+          "major": true
+        },
+        {
+          "value": 151,
+          "label": "まばらな樹木",
+          "color": "FFC864",
+          "major": false
+        },
+        {
+          "value": 152,
+          "label": "まばらな低木",
+          "color": "FFD278",
+          "major": false
+        },
+        {
+          "value": 153,
+          "label": "まばらな草地",
+          "color": "FFEBAF",
+          "major": false
+        },
+        {
+          "value": 160,
+          "label": "冠水する森林（淡水）",
+          "color": "00785A",
+          "major": true
+        },
+        {
+          "value": 170,
+          "label": "冠水する森林（海水）",
+          "color": "009678",
+          "major": true
+        },
+        {
+          "value": 180,
+          "label": "冠水する低木・草地",
+          "color": "00DC82",
+          "major": true
+        },
+        {
+          "value": 190,
+          "label": "都市・市街地",
+          "color": "C31400",
+          "major": true
+        },
+        {
+          "value": 200,
+          "label": "裸地",
+          "color": "FFF5D7",
+          "major": true
+        },
+        {
+          "value": 201,
+          "label": "裸地（固結）",
+          "color": "DCDCDC",
+          "major": false
+        },
+        {
+          "value": 202,
+          "label": "裸地（未固結）",
+          "color": "FFF5D7",
+          "major": false
+        },
+        {
+          "value": 210,
+          "label": "水域",
+          "color": "0046C8",
+          "major": true
+        },
+        {
+          "value": 220,
+          "label": "雪・氷",
+          "color": "FFFFFF",
+          "major": true
+        }
+      ]
+    },
+    {
+      "key": "fnf",
+      "collectionId": "JAXA.EORC_ALOS-2.PALSAR-2_FNF.v2.1.0_global_yearly",
+      "band": "FNF",
+      "name": "森林・非森林マップ（年別）",
+      "shortName": "森林/非森林",
+      "icon": "🌲",
+      "category": "land",
+      "target": "森林があるかどうか",
+      "temporal": "yearly",
+      "updateFrequency": "毎年",
+      "periodStart": "2017",
+      "periodEnd": null,
+      "spatialResolution": "約25m（ズームすると細かく表示）",
+      "unit": "",
+      "unitLabel": "（分類）",
+      "valueKind": "classified",
+      "maxZoom": 12,
+      "colorMap": null,
+      "description": {
+        "simple": "どこに森があるかを表した地図です。緑のところが森林です。年ごとに比べると、森が減ったり増えたりしたことがわかります。",
+        "detail": "陸域観測技術衛星2号「だいち2号」（ALOS-2）の合成開口レーダ PALSAR-2 は、自分で電波を出して、はね返ってきた電波を受けとります。木があると電波の返り方が変わるため、雲があっても昼夜を問わず森林を見分けることができます。",
+        "data": "レーダ画像から分類した年ごとの森林・非森林データです。"
+      },
+      "caution": "分類データのため平均や相関の計算には使えません。年によって判定方法の改良があり、小さな変化は誤差のこともあります。",
+      "source": {
+        "provider": "JAXA EORC ALOS Group",
+        "satellite": "ALOS-2「だいち2号」",
+        "sensor": "PALSAR-2",
+        "citation": "Shimada, M. et al. (2014) New Global Forest/Non-forest Maps from ALOS PALSAR Data (2007-2010), Remote Sensing of Environment, 155, 13-31.",
+        "doi": null
+      },
+      "classes": [
+        {
+          "value": 1,
+          "label": "森林（樹木の割合90%以上）",
+          "color": "00B200",
+          "major": true
+        },
+        {
+          "value": 2,
+          "label": "森林（樹木の割合10〜90%）",
+          "color": "83EF62",
+          "major": true
+        },
+        {
+          "value": 3,
+          "label": "非森林",
+          "color": "FFFF99",
+          "major": true
+        },
+        {
+          "value": 4,
+          "label": "水域",
+          "color": "0000FF",
+          "major": true
+        }
+      ]
+    }
+  ]
+}

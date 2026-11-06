@@ -1,0 +1,23 @@
+:root {
+  color-scheme: dark;
+  --bg: #050b1f;
+  --bg-2: #0b1430;
+  --surface: #111c3d;
+  --surface-2: #17244d;
+  --border: rgba(148, 163, 184, 0.22);
+  --text: #e8eefc;
+  --text-muted: #a9b6d3;
+  --accent: #38bdf8;
+  --accent-2: #a78bfa;
+  --accent-strong: #0ea5e9;
+  --warn-bg: rgba(250, 204, 21, 0.1);
+  --warn-border: rgba(250, 204, 21, 0.45);
+  --error: #fca5a5;
+  --tag-a: #38bdf8;
+  --tag-b: #f59e0b;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+  --font: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic UI", "Meiryo", system-ui, sans-serif;
+  --header-h: 56px;
+}
