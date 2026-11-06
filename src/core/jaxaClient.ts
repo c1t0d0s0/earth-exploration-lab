@@ -134,6 +134,34 @@ export function imageDataObject(im: JE.Image, opts: DataObjectOptions): Promise<
   return run;
 }
 
+/** 全球（等緯度経度）の格子データ。発見・クイズ・ランキングで共通に使う */
+export interface GlobalGrid {
+  width: number;
+  height: number;
+  data: ArrayLike<number>;
+  bbox: [number, number, number, number];
+  /** 実際に使われたデータの日時 */
+  date: Date;
+}
+
+const globalGrids = new LruCache<string, Promise<GlobalGrid>>(48);
+
+export function getGlobalGrid(ds: DatasetDef, date: Date, width = 360, height = 180): Promise<GlobalGrid> {
+  if (isPolar(ds)) return Promise.reject(new Error(`${ds.shortName} は極域投影のため全球格子に対応していません`));
+  const key = `${ds.key}|${toDateKey(date, ds.temporal)}|${width}x${height}`;
+  let p = globalGrids.get(key);
+  if (!p) {
+    p = getImage(ds, date).then(async (im) => {
+      const bbox: [number, number, number, number] = [-180, -90, 180, 90];
+      const d = await imageDataObject(im, { bbox, width, height });
+      return { width: d.width, height: d.height, data: d.data, bbox, date: im.getDate() };
+    });
+    p.catch(() => globalGrids.delete(key));
+    globalGrids.set(key, p);
+  }
+  return p;
+}
+
 // ---------------------------------------------------------------- tiles
 
 const tileGenerators = new LruCache<string, Promise<JE.TileGenerator>>(24);

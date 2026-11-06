@@ -10,6 +10,7 @@ const TODAY_OPTIONS = ["precip", "sst", "ndvi", "lst"];
 
 export const homePage: Page = {
   title: "トップ",
+  layout: "doc",
   mount(root) {
     let disposed = false;
     const todayImg = h("div", { class: "today-canvas", role: "img", "aria-label": "最新の全球衛星データ画像" }, h("p", { class: "hint" }, "🛰️ 衛星データを読み込み中…"));
@@ -122,9 +123,9 @@ export const homePage: Page = {
             feature("#/map", "🗺️", "地球探検マップ", "降水量・海面水温・植生などの衛星データを地図で自由に見て、時間を進めてみよう。"),
             feature("#/timemachine", "⏳", "地球タイムマシン", "同じ場所の過去と現在をくらべて、地球の変化を発見しよう。"),
             feature("#/lab", "🔬", "地球データ実験室", "2つのデータを重ねて、グラフで関係を調べ、仮説を確かめよう。"),
-            feature("#/", "🕵️", "地球探偵クイズ", "衛星データを使って地球の謎を解くミッション。", false),
-            feature("#/", "🏆", "地球データランキング", "雨が多い地域、暑い地域などをランキングで紹介。", false),
-            feature("#/", "🛰️", "観測衛星シミュレーター", "人工衛星がどうやって地球を観測しているか体験。", false))),
+            feature("#/quiz", "🕵️", "地球探偵クイズ", "本物の衛星データを調べて、地球の謎を解くミッションに挑戦しよう。"),
+            feature("#/ranking", "🏆", "地球データランキング", "雨が多い地域、地面が熱い地域…世界の地域をランキングでくらべよう。"),
+            feature("#/satellite", "🛰️", "観測衛星シミュレーター", "人工衛星がどうやって地球を観測しているか、軌道を動かして体験しよう。"))),
         h("section", { class: "section" },
           h("h2", null, "⏳ 地球タイムマシンで見てみよう"),
           h("div", { class: "chip-list" }, TIME_MACHINE_PRESETS.map((p) => h("a", { class: "chip", href: `#/timemachine?preset=${p.id}` }, `${p.icon} ${p.title}`)))),

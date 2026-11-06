@@ -1,0 +1,121 @@
+{
+  "$comment": "観測衛星シミュレーターの衛星。高度・観測幅・観測時刻は公式資料の値（source に出典）。軌道傾斜角と周期は高度から物理モデルで計算する（太陽同期軌道は J2 項による軌道面の回転が 1年で1周になる条件）。",
+  "satellites": [
+    {
+      "id": "gcom-c",
+      "name": "しきさい（GCOM-C）",
+      "icon": "🛰️",
+      "role": "地球の気候にかかわる、雲・海・植物などをはかる衛星",
+      "altitudeKm": 800,
+      "altitudeNote": "約800km",
+      "orbit": "sun-synchronous",
+      "localTimeDescending": 10.5,
+      "localTimeNote": "午前10時30分ごろ（昼の観測）",
+      "sensors": [
+        { "id": "sgli-vnr", "name": "SGLI 可視・近赤外放射計部（VNR）", "kind": "optical", "swathKm": 1150 },
+        { "id": "sgli-irs", "name": "SGLI 赤外走査放射計部（IRS）", "kind": "thermal", "swathKm": 1400 }
+      ],
+      "products": ["sst", "chla", "ndvi-gcomc", "lst"],
+      "sources": [
+        { "label": "JAXA 衛星プロジェクト「しきさい」（高度・走査幅）", "url": "https://www.satnavi.jaxa.jp/ja/project/gcom-c/" },
+        { "label": "JAXA Earth API データカタログ（観測時刻）", "url": "https://data.earth.jaxa.jp/app/mcp/catalog.v2.md" }
+      ]
+    },
+    {
+      "id": "gcom-w",
+      "name": "しずく（GCOM-W）",
+      "icon": "🛰️",
+      "role": "雨・水蒸気・海氷・土の水分など、地球の水をはかる衛星",
+      "altitudeKm": 700,
+      "altitudeNote": "約700km",
+      "orbit": "sun-synchronous",
+      "localTimeDescending": 1.5,
+      "localTimeNote": "午後1時30分ごろ（昼）と午前1時30分ごろ（夜）",
+      "sensors": [
+        { "id": "amsr2", "name": "高性能マイクロ波放射計2（AMSR2）", "kind": "microwave", "swathKm": 1450 }
+      ],
+      "products": ["smc", "seaice"],
+      "sources": [
+        { "label": "JAXA 衛星プロジェクト「しずく」（高度・観測幅）", "url": "https://www.satnavi.jaxa.jp/ja/project/gcom-w/" },
+        { "label": "JAXA Earth API データカタログ（観測時刻）", "url": "https://data.earth.jaxa.jp/app/mcp/catalog.v2.md" }
+      ]
+    },
+    {
+      "id": "gpm",
+      "name": "GPM主衛星",
+      "icon": "🛰️",
+      "role": "雨や雪を、雲の中まで立体的にはかる衛星",
+      "altitudeKm": 407,
+      "altitudeNote": "約407km",
+      "orbit": "inclined",
+      "inclinationDeg": 65,
+      "localTimeNote": "毎日少しずつ観測時刻が変わる（太陽非同期）",
+      "sensors": [
+        { "id": "dpr-ku", "name": "二周波降水レーダ Ku帯（KuPR）", "kind": "radar", "swathKm": 245 }
+      ],
+      "products": ["precip-daily"],
+      "sources": [
+        { "label": "JAXA 衛星プロジェクト「GPM」（高度・軌道傾斜角・観測幅）", "url": "https://www.satnavi.jaxa.jp/ja/project/gpm/" }
+      ]
+    },
+    {
+      "id": "alos-2",
+      "name": "だいち2号（ALOS-2）",
+      "icon": "🛰️",
+      "role": "電波（レーダ）で、森林や地面のようすを細かく見る衛星",
+      "altitudeKm": 628,
+      "altitudeNote": "628km",
+      "orbit": "sun-synchronous",
+      "localTimeDescending": 12,
+      "localTimeNote": "正午ごろ（降交点地方時 12:00）",
+      "recurrenceDays": 14,
+      "sensors": [
+        { "id": "palsar2-scan", "name": "PALSAR-2 広域観測モード", "kind": "radar", "swathKm": 350 },
+        { "id": "palsar2-high", "name": "PALSAR-2 高分解能モード", "kind": "radar", "swathKm": 70 },
+        { "id": "palsar2-spot", "name": "PALSAR-2 スポットライトモード", "kind": "radar", "swathKm": 25 }
+      ],
+      "products": ["fnf"],
+      "sources": [
+        { "label": "JAXA 衛星プロジェクト「だいち2号」（高度・降交点地方時・回帰日数・観測幅）", "url": "https://www.satnavi.jaxa.jp/ja/project/alos-2/" }
+      ]
+    }
+  ],
+  "sensorKinds": {
+    "optical": {
+      "label": "光学センサー（受動型）",
+      "simple": "太陽の光が地面や海ではね返った光を、カメラのようにとらえます。人の目と同じで、夜や雲の下は見えません。",
+      "detail": "可視光・近赤外光の反射のしかたは、植物・水・土などで少しずつちがいます。たくさんの色（波長）に分けて光をはかることで、植生指数や海の色（クロロフィルa）を求めます。",
+      "needsDaylight": true,
+      "throughClouds": false
+    },
+    "thermal": {
+      "label": "熱赤外センサー（受動型）",
+      "simple": "地面や海から出ている「熱の光（赤外線）」をとらえて、温度をはかります。夜でもはかれますが、雲があると地面が見えません。",
+      "detail": "温度が高い物ほど強い赤外線を出す性質（放射）を使って、地表面温度や海面水温を求めます。",
+      "needsDaylight": false,
+      "throughClouds": false
+    },
+    "microwave": {
+      "label": "マイクロ波放射計（受動型）",
+      "simple": "地面や海から出ている、とても弱い電波（マイクロ波）をとらえます。雲を通りぬけるので、くもりの日や夜でも観測できます。",
+      "detail": "水や氷はマイクロ波の出し方がちがうため、土の水分や海氷、雨の量などを求められます。そのかわり、光学センサーより細かい場所の区別は苦手です。",
+      "needsDaylight": false,
+      "throughClouds": true
+    },
+    "radar": {
+      "label": "レーダ（能動型）",
+      "simple": "衛星が自分で電波を出して、はね返ってきた電波をとらえます。太陽の光がいらないので、夜でも、雲があっても観測できます。",
+      "detail": "はね返ってくるまでの時間や強さから、雨つぶの量や地面・森林のようすがわかります。降水レーダは雨の立体的な構造を、合成開口レーダ（SAR）は細かい地表のようすをとらえます。",
+      "needsDaylight": false,
+      "throughClouds": true
+    }
+  },
+  "targets": [
+    { "name": "東京", "lon": 139.76, "lat": 35.68 },
+    { "name": "アマゾン", "lon": -60, "lat": -3 },
+    { "name": "サハラ砂漠", "lon": 10, "lat": 25 },
+    { "name": "北極海", "lon": 0, "lat": 82 },
+    { "name": "シドニー", "lon": 151.2, "lat": -33.9 },
+    { "name": "ハワイ", "lon": -155.5, "lat": 19.6 }
+  ]
+}

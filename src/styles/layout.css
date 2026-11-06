@@ -1123,6 +1123,314 @@ a.feature-card:hover,
   position: relative;
 }
 
+/* ------------------------------------------------------------ quiz */
+.mission-card {
+  display: block;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  color: var(--text);
+  text-decoration: none;
+  transition: border-color 0.15s, transform 0.15s;
+}
+.mission-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+.mission-card.cleared {
+  border-color: rgba(250, 204, 21, 0.55);
+}
+.mission-card h3 {
+  font-size: 1.05rem;
+  margin: 8px 0 4px;
+}
+.mission-card p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+.mission-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.mission-head .badge {
+  margin-left: 0;
+}
+.mission-stars {
+  color: #facc15 !important;
+  letter-spacing: 0.1em;
+  margin: 0;
+}
+.mission-stars.muted {
+  color: var(--text-muted) !important;
+  letter-spacing: normal;
+}
+.badge.diff-1 {
+  background: rgba(34, 197, 94, 0.2);
+  color: #86efac;
+}
+.badge.diff-2 {
+  background: rgba(56, 189, 248, 0.2);
+  color: #7dd3fc;
+}
+.badge.diff-3 {
+  background: rgba(244, 63, 94, 0.2);
+  color: #fda4af;
+}
+.badge-clear {
+  background: rgba(250, 204, 21, 0.2) !important;
+  color: #fde68a !important;
+}
+.hint-list {
+  margin: 0 0 8px;
+  padding-left: 1.4em;
+  font-size: 0.92rem;
+}
+.hint-list li {
+  margin-bottom: 4px;
+}
+.choices fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.choice {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-2);
+  cursor: pointer;
+  min-height: 44px;
+}
+.choice:has(input:checked) {
+  border-color: var(--accent);
+  background: rgba(56, 189, 248, 0.12);
+}
+.choice input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+}
+.wrong {
+  color: var(--error);
+  margin-top: 10px;
+}
+.correct {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background: rgba(34, 197, 94, 0.12);
+  border: 1px solid rgba(34, 197, 94, 0.5);
+}
+.correct-title {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #86efac;
+}
+.correct-title span {
+  color: #facc15;
+}
+.facts {
+  margin-top: 10px;
+  font-size: 0.88rem;
+}
+.facts ul {
+  margin: 4px 0 0;
+  padding-left: 1.2em;
+}
+.place-marker {
+  background: rgba(5, 11, 31, 0.9);
+  color: var(--text);
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  padding: 2px 10px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+/* ------------------------------------------------------------ ranking */
+.rank-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.rank-row {
+  position: relative;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-2);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.9rem;
+  text-align: left;
+  cursor: pointer;
+  overflow: hidden;
+}
+.rank-row.selected {
+  border-color: var(--accent);
+}
+.rank-num {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--surface-2);
+  font-weight: 700;
+}
+.rank-num.rank-1,
+.rank-marker.rank-1 {
+  background: #facc15;
+  color: #000;
+}
+.rank-num.rank-2,
+.rank-marker.rank-2 {
+  background: #cbd5e1;
+  color: #000;
+}
+.rank-num.rank-3,
+.rank-marker.rank-3 {
+  background: #d97706;
+  color: #000;
+}
+.rank-name {
+  overflow-wrap: anywhere;
+}
+.rank-value {
+  font-weight: 700;
+  white-space: nowrap;
+}
+.rank-bar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  background: var(--accent);
+  opacity: 0.7;
+}
+.rank-marker {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  background: var(--surface-2);
+  color: var(--text);
+  font-weight: 700;
+  font-size: 0.8rem;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  padding: 0;
+}
+
+/* ------------------------------------------------------------ satellite */
+.sat-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.sat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: left;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-2);
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+}
+.sat-card[aria-checked="true"] {
+  border-color: var(--accent);
+  background: rgba(56, 189, 248, 0.12);
+}
+.sat-name {
+  font-weight: 700;
+  font-size: 0.92rem;
+}
+.sat-role {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+.src-tag {
+  font-size: 0.7rem;
+  border-radius: 4px;
+  padding: 0 6px;
+  white-space: nowrap;
+}
+.src-official {
+  background: rgba(34, 197, 94, 0.2);
+  color: #86efac;
+}
+.src-calc {
+  background: rgba(167, 139, 250, 0.2);
+  color: #c4b5fd;
+}
+.kind-flags {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 6px;
+  font-size: 0.88rem;
+}
+.sim-overlay {
+  position: absolute;
+  left: 10px;
+  right: 60px;
+  top: 10px;
+  z-index: 3;
+  pointer-events: none;
+}
+.sim-clock {
+  display: inline-block;
+  background: rgba(5, 11, 31, 0.85);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 4px 10px;
+  font-size: 0.82rem;
+  margin: 0;
+}
+.sat-marker {
+  font-size: 26px;
+  filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.9));
+}
+.sim-figure {
+  margin: 0 0 8px;
+}
+.sim-chip {
+  display: block;
+  width: 100%;
+  max-width: 360px;
+  height: auto;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  image-rendering: pixelated;
+  background: #0a1530;
+}
+.pre-line {
+  white-space: pre-line;
+}
+
 /* ------------------------------------------------------------ app layout (PC) */
 /* 地図画面：ヘッダー・本体・フッターを画面の高さにぴったり収め、ページ全体はスクロールさせない */
 @media (min-width: 861px) and (min-height: 560px) {
@@ -1246,6 +1554,30 @@ a.feature-card:hover,
     height: 55dvh;
     min-height: 300px;
   }
+  /* 横並び (flex) の中で地図の枠の幅が 0 にならないように */
+  .lab-map .map-wrap {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+  }
+  /* メニューが6項目あるので、スマホでは2行目に折り返して全部見えるようにする */
+  .site-header {
+    height: auto;
+    flex-wrap: wrap;
+    padding: 6px 10px;
+    gap: 2px 8px;
+  }
+  .site-nav {
+    margin-left: 0;
+    width: 100%;
+    flex-wrap: wrap;
+    overflow: visible;
+    gap: 2px;
+  }
+  .site-nav a {
+    padding: 4px 9px;
+    font-size: 0.82rem;
+  }
   .lab-panel {
     border-left: 0;
     overflow: visible;
@@ -1260,9 +1592,6 @@ a.feature-card:hover,
 }
 
 @media (max-width: 480px) {
-  .brand-name {
-    display: none;
-  }
   body {
     font-size: 15px;
   }

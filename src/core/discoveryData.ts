@@ -14,7 +14,7 @@ import {
   TOKYO_ANNUAL_PRECIP_MM,
   type Grid,
 } from "./discoveries";
-import { getAvailableRange, getDates, getImage, getPolarGrid, imageDataObject } from "./jaxaClient";
+import { getAvailableRange, getDates, getGlobalGrid, getPolarGrid } from "./jaxaClient";
 import { placeLabel } from "./regions";
 import { formatNumber } from "./stats";
 import type { DatasetDef } from "./types";
@@ -43,15 +43,7 @@ export interface DiscoveryGenerator {
   run(ds: DatasetDef, last: Date): Promise<Discovery>;
 }
 
-const WORLD: [number, number, number, number] = [-180, -90, 180, 90];
-const GRID_W = 360;
-const GRID_H = 180;
-
-async function fetchGrid(ds: DatasetDef, date: Date): Promise<Grid> {
-  const im = await getImage(ds, date);
-  const d = await imageDataObject(im, { bbox: WORLD, width: GRID_W, height: GRID_H });
-  return { width: d.width, height: d.height, data: d.data, bbox: WORLD };
-}
+const fetchGrid = (ds: DatasetDef, date: Date): Promise<Grid> => getGlobalGrid(ds, date);
 
 const ds = (key: string) => {
   const d = getDataset(key);

@@ -3,7 +3,7 @@ import type { Page } from "./pages/page";
 export type Routes = Record<string, () => Promise<Page>>;
 
 /** ハッシュルーター（静的ホスティングでも動くよう #/path を使う） */
-export function startRouter(root: HTMLElement, routes: Routes, onNavigate?: (path: string) => void): void {
+export function startRouter(root: HTMLElement, routes: Routes, onNavigate?: (path: string, page: Page) => void): void {
   let cleanup: (() => void) | null = null;
   let currentPath: string | null = null;
   let seq = 0;
@@ -21,7 +21,7 @@ export function startRouter(root: HTMLElement, routes: Routes, onNavigate?: (pat
     root.replaceChildren();
     document.title = `${page.title} | 地球探検ラボ`;
     cleanup = page.mount(root);
-    onNavigate?.(path);
+    onNavigate?.(path, page);
     root.focus({ preventScroll: true });
     window.scrollTo(0, 0);
   };

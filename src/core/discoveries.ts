@@ -34,6 +34,52 @@ export function sumGrids(grids: Grid[], scale = 1): Grid {
   return { width, height, bbox, data: out };
 }
 
+/** (i, j) の周囲 (2r+1)^2 ピクセルの平均。有効値が半分未満なら NaN（経度方向はつなげる） */
+export function neighborhoodMean(g: Grid, i: number, j: number, r = 1): number {
+  const need = Math.ceil(((2 * r + 1) ** 2) / 2);
+  let s = 0;
+  let n = 0;
+  for (let dj = -r; dj <= r; dj++) {
+    const jj = j + dj;
+    if (jj < 0 || jj >= g.height) continue;
+    for (let di = -r; di <= r; di++) {
+      const v = g.data[((i + di + g.width) % g.width) + jj * g.width];
+      if (isValid(v)) {
+        s += v;
+        n++;
+      }
+    }
+  }
+  return n >= need ? s / n : NaN;
+}
+
+/** 全ピクセルを周囲平均にした格子（中心が欠損の場所は欠損のまま） */
+export function smoothGrid(g: Grid, r = 1): Grid {
+  const out = new Float32Array(g.width * g.height).fill(NaN);
+  for (let j = 0; j < g.height; j++) {
+    for (let i = 0; i < g.width; i++) {
+      if (!isValid(g.data[i + j * g.width])) continue;
+      out[i + j * g.width] = neighborhoodMean(g, i, j, r);
+    }
+  }
+  return { ...g, data: out };
+}
+
+/** 経度緯度 → 格子の (i, j)。範囲外は null */
+export function lonLatToPixel(g: Grid, lon: number, lat: number): [number, number] | null {
+  const [w, s, e, n] = g.bbox;
+  const l = ((((lon - w) % 360) + 360) % 360) + w;
+  const i = Math.floor(((l - w) / (e - w)) * g.width);
+  const j = Math.floor(((n - lat) / (n - s)) * g.height);
+  if (i < 0 || j < 0 || i >= g.width || j >= g.height) return null;
+  return [i, j];
+}
+
+export function valueAt(g: Grid, lon: number, lat: number): number {
+  const p = lonLatToPixel(g, lon, lat);
+  return p ? g.data[p[0] + p[1] * g.width] : NaN;
+}
+
 export interface Peak {
   lon: number;
   lat: number;

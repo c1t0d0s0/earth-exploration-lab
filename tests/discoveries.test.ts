@@ -99,6 +99,12 @@ describe("regionName", () => {
     expect(regionName(90, 15)).toBe("ベンガル湾");
     expect(regionName(-150, 8)).toBe("赤道付近の太平洋（熱帯収束帯）");
     expect(regionName(0, 85)).toBe("北極海");
+    // 陸と海をまちがえやすい場所
+    expect(regionName(-47, -26)).toBe("ブラジル南東部（大西洋岸の森林）");
+    expect(regionName(154, -15)).toBe("サンゴ海");
+    expect(regionName(125, -11)).toBe("ティモール海");
+    expect(regionName(149, -21)).not.toBe("サンゴ海"); // クイーンズランドの陸
+    expect(regionName(153, -4)).toBe("ビスマルク諸島・ソロモン諸島付近");
   });
   it("経度 180 を超える値も扱える", () => {
     expect(regionName(370, 25)).toBe("サハラ砂漠");
