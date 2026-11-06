@@ -4,16 +4,21 @@ import { resolve } from "node:path";
 import { defineConfig, type HtmlTagDescriptor, type Plugin } from "vite";
 
 /**
- * ルートの config.js から GTM_ID（Google Analytics の測定 ID）を読み取る。
- * ファイルが無い・値が取得できない・形式が不正な場合は null を返す。
+ * GTM_ID（Google Analytics の測定 ID）を取得する。
+ * 環境変数 GTM_ID（GitHub Actions では vars.GTM_ID）を優先し、無ければルートの config.js から読み取る。
+ * 値が取得できない・形式が不正な場合は null を返す。
  */
 function readAnalyticsId(): string | null {
-  const file = resolve(import.meta.dirname, "config.js");
-  if (!existsSync(file)) return null;
-  const match = readFileSync(file, "utf8").match(/\bGTM_ID\s*=\s*(["'`])([^"'`]*)\1/);
-  const id = match?.[2].trim() ?? "";
+  const id = process.env.GTM_ID?.trim() || readIdFromConfigFile();
   // HTML への埋め込み前に形式を検証する（G-XXXX / GT-XXXX / UA-XXXX-X / AW-XXXX）
   return /^(G|GT|UA|AW)-[A-Z0-9-]+$/i.test(id) ? id : null;
+}
+
+function readIdFromConfigFile(): string {
+  const file = resolve(import.meta.dirname, "config.js");
+  if (!existsSync(file)) return "";
+  const match = readFileSync(file, "utf8").match(/\bGTM_ID\s*=\s*(["'`])([^"'`]*)\1/);
+  return match?.[2].trim() ?? "";
 }
 
 /** GTM_ID が取得できた場合のみ Google Analytics (gtag.js) のタグを <head> に挿入する */
