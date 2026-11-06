@@ -1,6 +1,6 @@
 import { getDataset, LAB_PRESETS, TIME_MACHINE_PRESETS, WEEKLY_DISCOVERIES } from "../core/datasetRegistry";
 import { formatDateJa, isoWeek } from "../core/dates";
-import { getOverviewCanvas } from "../core/jaxaClient";
+import { getAvailableRange, getOverviewCanvas } from "../core/jaxaClient";
 import { h, setChildren } from "../ui/dom";
 import { renderLegend } from "../ui/legend";
 import type { Page } from "./page";
@@ -22,7 +22,9 @@ export const homePage: Page = {
       setChildren(todayImg, h("p", { class: "hint" }, "🛰️ 衛星データを読み込み中…"));
       void renderLegend(todayLegend, ds, { compact: true });
       try {
-        const { canvas, date } = await getOverviewCanvas(ds, undefined, 720, 360);
+        // 最新の日時を明示して渡す（省略すると現在時刻が使われ、ライブラリが警告を出す）
+        const { last } = await getAvailableRange(ds);
+        const { canvas, date } = await getOverviewCanvas(ds, last, 720, 360);
         if (disposed) return;
         canvas.classList.add("today-img");
         setChildren(todayImg, canvas);
