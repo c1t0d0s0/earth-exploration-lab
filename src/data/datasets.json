@@ -51,6 +51,54 @@
       }
     },
     {
+      "key": "precip-daily",
+      "collectionId": "JAXA.EORC_GSMaP_standard.Gauge.00Z-23Z.v6_daily",
+      "band": "PRECIP",
+      "name": "降水量（日別）",
+      "shortName": "降水量(日別)",
+      "icon": "🌧️",
+      "category": "weather",
+      "target": "地上に降る雨や雪の強さ",
+      "temporal": "daily",
+      "updateFrequency": "毎日（数日遅れで更新）",
+      "periodStart": "2000-03-01",
+      "periodEnd": null,
+      "spatialResolution": "約11km（0.1°）",
+      "unit": "mm/hr",
+      "unitLabel": "mm/時",
+      "valueKind": "estimated",
+      "maxZoom": 6,
+      "colorMap": {
+        "min": 0,
+        "max": 2,
+        "colors": [
+          "0b1020",
+          "1e3a8a",
+          "2563eb",
+          "06b6d4",
+          "a3e635",
+          "facc15",
+          "f97316",
+          "dc2626"
+        ],
+        "deleteMin": false
+      },
+      "transparentBelow": 0.05,
+      "description": {
+        "simple": "1日のあいだに、どれくらい雨がふったかを色で表しています。台風や大雨の雨雲が、毎日どう動いたかがわかります。",
+        "detail": "GSMaP（衛星全球降水マップ）は、全球降水観測計画（GPM）の主衛星や、世界中の気象衛星・マイクロ波放射計を組み合わせて、1時間ごとの降水量を推定し、地上雨量計で補正したデータです。ここでは1日の平均的な降水強度（1時間あたり）を表示しています。台風や梅雨前線など、日ごとに動く雨の様子を追うことができます。赤道付近の熱帯収束帯や、夏のモンスーンによる大雨帯がよく見えます。",
+        "data": "複数衛星の観測から推定された降水強度の日平均値です（地上雨量計で補正済みの Gauge 版）。その日の降水量は おおよそ 値×24 で求められます。"
+      },
+      "caution": "衛星からの推定値のため、山岳地帯や雪・弱い雨では誤差が大きくなることがあります。",
+      "source": {
+        "provider": "JAXA EORC / GSMaP Project",
+        "satellite": "GPM 主衛星ほか複数の衛星",
+        "sensor": "DPR・マイクロ波放射計・静止気象衛星 赤外",
+        "citation": "Japan Aerospace Exploration Agency. 1998. GSMaP(Daily).",
+        "doi": null
+      }
+    },
+    {
       "key": "sst",
       "collectionId": "JAXA.G-Portal_GCOM-C.SGLI_standard.L3-SST.daytime.v3_global_monthly",
       "band": "SST",

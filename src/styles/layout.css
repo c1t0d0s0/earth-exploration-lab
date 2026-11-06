@@ -1073,6 +1073,22 @@ a.feature-card:hover,
   border-color: var(--accent);
   transform: translateY(-2px);
 }
+.discovery-card.pending {
+  border-style: dashed;
+  opacity: 0.75;
+}
+.discovery-place {
+  font-weight: 700;
+  color: var(--text) !important;
+}
+.discovery-note {
+  font-size: 0.8rem !important;
+}
+.discovery-meta {
+  font-size: 0.75rem !important;
+  border-top: 1px solid var(--border);
+  padding-top: 6px;
+}
 .feature-card.disabled {
   opacity: 0.55;
 }

@@ -184,7 +184,10 @@ export const explorerMapPage: Page = {
 
     // ---------------------------------------------------------------- map
     renderDatasetList();
-    const map: MlMap = createMap(mapEl, { center: [135, 15], zoom: 1.3 });
+    // c=経度,緯度,ズーム で地図の中心を指定できる（発見カードからのリンク用）
+    const c = (q.get("c") ?? "").split(",").map(Number);
+    const hasCenter = c.length >= 2 && c.every((v) => Number.isFinite(v)) && Math.abs(c[1]) <= 90;
+    const map: MlMap = createMap(mapEl, hasCenter ? { center: [c[0], c[1]], zoom: c[2] ?? 4 } : { center: [135, 15], zoom: 1.3 });
     const popup = new Popup({ closeButton: true, maxWidth: "280px" });
     map.on("click", async (e) => {
       const lng = wrapLng(e.lngLat.lng);

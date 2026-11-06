@@ -1,5 +1,6 @@
 import { getDataset, LAB_PRESETS, TIME_MACHINE_PRESETS, WEEKLY_DISCOVERIES } from "../core/datasetRegistry";
 import { formatDateJa, isoWeek } from "../core/dates";
+import { DISCOVERY_GENERATORS, runDiscovery, type Discovery } from "../core/discoveryData";
 import { getAvailableRange, getOverviewCanvas } from "../core/jaxaClient";
 import { h, setChildren } from "../ui/dom";
 import { renderLegend } from "../ui/legend";
@@ -39,8 +40,49 @@ export const homePage: Page = {
       todayTabs.appendChild(h("button", { type: "button", role: "radio", "data-key": key, onclick: () => void showToday(key) }, `${ds.icon} ${ds.shortName}`));
     }
 
-    const week = isoWeek(new Date());
-    const discoveries = [0, 1, 2].map((i) => WEEKLY_DISCOVERIES[(week + i) % WEEKLY_DISCOVERIES.length]);
+    // ---- 今週の地球の発見：最新データから自動生成（できたものから順に表示）
+    const discoveryGrid = h("div", { class: "card-grid", "aria-live": "polite", "aria-busy": "true" });
+    const discoveryStatus = h("p", { class: "hint" });
+    const cards = DISCOVERY_GENERATORS.map((g) =>
+      h("div", { class: "discovery-card pending" },
+        h("h3", null, h("span", { "aria-hidden": "true" }, `${g.icon} `), g.pendingTitle),
+        h("p", { class: "hint" }, "🛰️ 衛星データを調べています…")),
+    );
+    cards.forEach((c) => discoveryGrid.appendChild(c));
+    const discoveryCard = (d: Discovery) =>
+      h("a", { class: "discovery-card", href: d.link },
+        h("h3", null, h("span", { "aria-hidden": "true" }, `${d.icon} `), d.title),
+        d.place ? h("p", { class: "discovery-place" }, `📍 ${d.place}`) : null,
+        h("p", null, d.text),
+        h("p", { class: "discovery-note" }, d.note),
+        h("p", { class: "discovery-meta" }, `使ったデータ：${d.dataLabel}`),
+        h("span", { class: "more" }, d.link.startsWith("#/timemachine") ? "タイムマシンでくらべる →" : "地図で調べてみる →"));
+    // 自動生成がすべて失敗したときの固定コンテンツ（週ごとに入れ替え）
+    const showFallback = () => {
+      const week = isoWeek(new Date());
+      const list = [0, 1, 2].map((i) => WEEKLY_DISCOVERIES[(week + i) % WEEKLY_DISCOVERIES.length]);
+      setChildren(discoveryGrid, list.map((d) => h("a", { class: "discovery-card", href: d.link }, h("h3", null, d.title), h("p", null, d.text), h("span", { class: "more" }, "調べてみる →"))));
+      discoveryStatus.textContent = "最新データを取得できなかったため、おすすめの話題を表示しています。";
+    };
+    void Promise.allSettled(
+      DISCOVERY_GENERATORS.map((g, i) =>
+        runDiscovery(g).then(
+          (d) => {
+            if (!disposed) cards[i].replaceWith(discoveryCard(d));
+            return true;
+          },
+          (e) => {
+            console.warn(`[discovery] ${g.id}`, e);
+            if (!disposed) cards[i].remove();
+            return false;
+          },
+        ),
+      ),
+    ).then((rs) => {
+      if (disposed) return;
+      discoveryGrid.setAttribute("aria-busy", "false");
+      if (!rs.some((r) => r.status === "fulfilled" && r.value)) showFallback();
+    });
 
     const feature = (href: string, icon: string, title: string, text: string, ready = true) =>
       h(ready ? "a" : "div", { class: `feature-card${ready ? "" : " disabled"}`, href: ready ? href : null, "aria-disabled": ready ? null : "true" },
@@ -71,7 +113,9 @@ export const homePage: Page = {
           todayTabs, todayImg, todayCaption, todayLegend),
         h("section", { class: "section" },
           h("h2", null, "✨ 今週の地球の発見"),
-          h("div", { class: "card-grid" }, discoveries.map((d) => h("a", { class: "discovery-card", href: d.link }, h("h3", null, d.title), h("p", null, d.text), h("span", { class: "more" }, "調べてみる →"))))),
+          h("p", { class: "lead" }, "最新の衛星データから、コンピューターが自動で見つけた発見です。データが更新されると内容も変わります。"),
+          discoveryStatus,
+          discoveryGrid),
         h("section", { class: "section" },
           h("h2", null, "🧭 探検メニュー"),
           h("div", { class: "card-grid" },
