@@ -1,7 +1,6 @@
 # 地球探検ラボ（EARTH EXPLORATION LAB）
 
-JAXA Earth API の衛星観測データを、誰でも地図で見て・比べて・分析できる Web サイト（MVP）。
-要件は [REQUIREMENTS.md](REQUIREMENTS.md) を参照。
+JAXA Earth API の衛星観測データを、誰でも地図で見て・比べて・分析できるデジタル地球科学館。
 
 ## 機能（MVP）
 
