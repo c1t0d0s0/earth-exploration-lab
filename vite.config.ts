@@ -8,7 +8,7 @@ import { defineConfig, type HtmlTagDescriptor, type Plugin } from "vite";
  * ファイルが無い・値が取得できない・形式が不正な場合は null を返す。
  */
 function readAnalyticsId(): string | null {
-  const file = resolve(__dirname, "config.js");
+  const file = resolve(import.meta.dirname, "config.js");
   if (!existsSync(file)) return null;
   const match = readFileSync(file, "utf8").match(/\bGTM_ID\s*=\s*(["'`])([^"'`]*)\1/);
   const id = match?.[2].trim() ?? "";
