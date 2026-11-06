@@ -15,6 +15,8 @@ startRouter(
     "/lab": async () => (await import("./pages/dataLab")).dataLabPage,
   },
   (path) => {
+    // 地図を使う画面は「ヘッダー＋本体＋フッター」を画面の高さに収める
+    document.body.classList.toggle("layout-app", path !== "/");
     document.querySelectorAll<HTMLAnchorElement>(".site-nav a").forEach((a) => {
       const target = a.getAttribute("href")!.replace(/^#/, "") || "/";
       if (target === path) a.setAttribute("aria-current", "page");

@@ -474,6 +474,8 @@ details summary {
 .page-map {
   display: grid;
   grid-template-columns: 240px minmax(0, 1fr) 320px;
+  /* 行の高さを中身に合わせて伸ばさない（パネルは内側でスクロール） */
+  grid-template-rows: minmax(0, 1fr);
   height: calc(100vh - var(--header-h));
   height: calc(100dvh - var(--header-h));
   min-height: 520px;
@@ -768,6 +770,7 @@ details summary {
 .page-lab {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 440px;
+  grid-template-rows: minmax(0, 1fr);
   height: calc(100vh - var(--header-h));
   height: calc(100dvh - var(--header-h));
   min-height: 560px;
@@ -1108,6 +1111,50 @@ a.feature-card:hover,
 .more {
   color: var(--accent);
   font-size: 0.88rem;
+}
+
+.panel > *,
+.lab-panel > * {
+  flex-shrink: 0;
+}
+/* 中の position:absolute 要素（読み上げ用テキストなど）がパネルの外にはみ出さないよう、パネルを基準にする */
+.panel,
+.lab-panel {
+  position: relative;
+}
+
+/* ------------------------------------------------------------ app layout (PC) */
+/* 地図画面：ヘッダー・本体・フッターを画面の高さにぴったり収め、ページ全体はスクロールさせない */
+@media (min-width: 861px) and (min-height: 560px) {
+  body.layout-app {
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0;
+    overflow: hidden;
+  }
+  body.layout-app main {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  body.layout-app .page-map,
+  body.layout-app .page-lab {
+    flex: 1;
+    height: auto;
+    min-height: 0;
+  }
+  body.layout-app .site-footer {
+    padding: 4px 16px;
+    font-size: 0.72rem;
+    line-height: 1.5;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 12px;
+  }
+  body.layout-app .site-footer p {
+    margin: 0;
+  }
 }
 
 /* ------------------------------------------------------------ responsive */
