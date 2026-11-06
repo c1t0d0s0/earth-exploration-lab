@@ -42,7 +42,7 @@ export const homePage: Page = {
     }
 
     // ---- 今週の地球の発見：最新データから自動生成（できたものから順に表示）
-    const discoveryGrid = h("div", { class: "card-grid", "aria-live": "polite", "aria-busy": "true" });
+    const discoveryGrid = h("div", { class: "card-grid discovery-grid", "aria-live": "polite", "aria-busy": "true" });
     const discoveryStatus = h("p", { class: "hint" });
     const cards = DISCOVERY_GENERATORS.map((g) =>
       h("div", { class: "discovery-card pending" },
