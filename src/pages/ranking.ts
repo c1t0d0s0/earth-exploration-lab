@@ -62,14 +62,16 @@ export const rankingPage: Page = {
         h(
           "div",
           { class: "lab-panel" },
-          h("section", { class: "card" }, h("h1", { class: "panel-title" }, "🏆 地球データランキング"), h("p", { class: "hint" }, "衛星データで、世界の地域をランキングにしました。順位をクリックすると、地図でその場所を確かめられます。"), kindEl),
+          h("section", { class: "card" }, h("h1", { class: "panel-title" }, "🏆 地球データランキング"), h("p", { class: "hint" }, "衛星データで、世界の地域をランキングにしました。順位をクリックすると、地図でその場所を確かめられます。"), kindEl,
+            h("p", { class: "hint" }, "地図右上の 🌐 ボタンで、地球儀と平面の地図を切り替えられます。平面の地図では、北や南の地域ほど大きく見え、北緯・南緯85°より先は表示できません。")),
           h("section", { class: "card" }, h("h2", { class: "panel-heading" }, "対象期間"), periodEl, metaEl),
           h("section", { class: "card" }, tableEl),
           detailEl,
         ),
       ),
     );
-    const map: MlMap = createMap(mapEl, { center: [60, 15], zoom: 1 });
+    // 平面の地図（メルカトル図法）は高緯度ほど面積が大きく見え、極付近は表示できないため、地球儀を既定にする
+    const map: MlMap = createMap(mapEl, { center: [60, 15], zoom: 1.7 });
 
     // ---------------------------------------------------------------- kind
     function renderKinds() {
@@ -162,6 +164,8 @@ export const rankingPage: Page = {
         if (t !== token || disposed) return;
         renderTable();
         renderMarkers();
+        // 地球儀では裏側の地域が見えないので、1位の地域を正面に向ける
+        if (def.type === "grid" && rows[0]) map.easeTo({ center: [rows[0].lon, rows[0].lat * 0.5], zoom: map.getProjection()?.type === "globe" ? 1.7 : 1.4, duration: 800 });
       } catch (e) {
         if (t === token) setChildren(tableEl, h("p", { class: "error", role: "alert" }, `集計できませんでした：${(e as Error).message}`));
       }
@@ -210,7 +214,8 @@ export const rankingPage: Page = {
       lm?.clear();
       lm?.add({ id: "rank", datasetKey: ds.key, dateKey: toDateKey(date, "daily"), opacity: 0.85, visible: true });
       setChildren(legendEl, h("div", { class: "legend-title" }, `${ds.icon} ${ds.shortName}（${formatDateJa(date, "daily")}）`));
-      map.jumpTo({ center: [0, 75], zoom: 1.4 });
+      // 北極点の近くまで見えるよう、北極の真上から見る
+      map.jumpTo({ center: [0, 80], zoom: map.getProjection()?.type === "globe" ? 0.9 : 1.4 });
       let done = 0;
       const vals = await Promise.all(
         r.seas.map(async (s) => {

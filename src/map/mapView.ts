@@ -1,4 +1,4 @@
-import { Map as MlMap, NavigationControl, ScaleControl, setWorkerUrl, type LngLatBoundsLike, type StyleSpecification } from "maplibre-gl";
+import { GlobeControl, Map as MlMap, NavigationControl, ScaleControl, setWorkerUrl, type LngLatBoundsLike, type StyleSpecification } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 // MapLibre 6 は自身の URL を基準にワーカーを探すため、バンドル後も見つかるよう明示的に指定する
 import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?url";
@@ -38,6 +38,7 @@ export interface MapOptions {
   center?: [number, number];
   zoom?: number;
   bounds?: LngLatBoundsLike;
+  /** 地球儀で表示する（既定: true）。平面の地図は高緯度ほど大きく見え、北緯・南緯85°より先を表示できないため */
   globe?: boolean;
   controls?: boolean;
 }
@@ -63,14 +64,24 @@ export function createMap(container: HTMLElement, opts: MapOptions = {}): MlMap 
       customAttribution: '衛星データ: <a href="https://data.earth.jaxa.jp/" target="_blank" rel="noopener">JAXA Earth API</a> | 背景地図: MapLibre Demo Tiles',
     },
     cooperativeGestures: false,
+    // 地図の操作ボタンの説明を日本語に
+    locale: {
+      "GlobeControl.Enable": "地球儀で表示",
+      "GlobeControl.Disable": "平面の地図で表示",
+      "NavigationControl.ZoomIn": "拡大",
+      "NavigationControl.ZoomOut": "縮小",
+      "NavigationControl.ResetBearing": "北を上にする",
+    },
   });
   if (opts.bounds) map.fitBounds(opts.bounds, { padding: 20, duration: 0 });
   if (opts.controls !== false) {
     map.addControl(new NavigationControl({ visualizePitch: false }), "top-right");
+    // 地球儀 ⇔ 平面の地図 の切り替えボタン（全画面共通）
+    map.addControl(new GlobeControl(), "top-right");
     map.addControl(new ScaleControl({ unit: "metric" }), "bottom-left");
   }
   map.on("style.load", () => {
-    if (opts.globe) map.setProjection({ type: "globe" });
+    if (opts.globe !== false) map.setProjection({ type: "globe" });
   });
   // 地図キャンバスにも説明を付ける（スクリーンリーダー向け）
   map.getCanvas().setAttribute("aria-label", "衛星データの地図。ドラッグで移動、ホイールやピンチで拡大縮小できます。");

@@ -74,6 +74,11 @@ export const timeMachinePage: Page = {
     const mapA: MlMap = createMap(elA, { controls: true });
     const mapB: MlMap = createMap(elB, { controls: false });
     const unsync = syncMaps(mapA, mapB);
+    // 右の地図（B）には切り替えボタンがないので、左（A）で地球儀／平面を切り替えたら合わせる
+    mapA.on("projectiontransition", () => {
+      const t = mapA.getProjection()?.type;
+      if (t && mapB.getProjection()?.type !== t) mapB.setProjection({ type: t });
+    });
 
     function applyMode() {
       compare.dataset.mode = mode;

@@ -4,7 +4,7 @@ import { clampDate, defaultRange, formatDateJa, parseDateKey, periodStartDate, t
 import { getAvailableRange, getDates } from "../core/jaxaClient";
 import { CATEGORY_LABELS, type DatasetDef } from "../core/types";
 import { LayerManager } from "../map/layerManager";
-import { createMap, setGlobe, whenStyleLoaded } from "../map/mapView";
+import { createMap, whenStyleLoaded } from "../map/mapView";
 import { h, hashQuery, replaceHashQuery, setChildren } from "../ui/dom";
 import { renderInfoPanel } from "../ui/infoPanel";
 import { renderLegend } from "../ui/legend";
@@ -109,12 +109,10 @@ export const explorerMapPage: Page = {
         }
       });
       const period = periodPicker(ds.temporal, range.start, range.end, first, last, (s, e) => void loadPeriod(s, e, current));
-      const globe = h("input", { type: "checkbox", onchange: () => map && setGlobe(map, globe.checked) });
       setChildren(
         topBar,
         h("label", { class: "field-inline" }, h("span", { class: "field-label" }, "日時"), dateInputEl),
         period.el,
-        h("label", { class: "check" }, globe, "地球儀で表示"),
         h("span", { class: "toolbar-note" }, `最新: ${formatDateJa(last, ds.temporal)}`),
       );
     }

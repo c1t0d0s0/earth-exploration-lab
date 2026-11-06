@@ -130,7 +130,7 @@ export const satellitePage: Page = {
       ),
     );
 
-    const map: MlMap = createMap(mapEl, { center: [target.lon, target.lat], zoom: 1.2, globe: true });
+    const map: MlMap = createMap(mapEl, { center: [target.lon, target.lat], zoom: 1.2 });
     const satMarker = new Marker({ element: h("div", { class: "sat-marker", "aria-hidden": "true" }, "🛰️") });
     const targetMarker = new Marker({ color: "#f59e0b" });
 
